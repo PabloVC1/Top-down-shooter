@@ -1,6 +1,6 @@
 package juego;
 import figuras.*;
 
-public class Bala{
+public class Bala extends Entidad{
 
 }

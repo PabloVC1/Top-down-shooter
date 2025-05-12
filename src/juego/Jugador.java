@@ -1,6 +1,6 @@
 package juego;
 import figuras.*;
 
-public class Jugador{
+public class Jugador extends Entidad{
     
 }
