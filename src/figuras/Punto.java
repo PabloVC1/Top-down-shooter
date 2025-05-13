@@ -1,5 +1,4 @@
 package figuras;
-
 public class Punto implements IPunto {
     private double x;
     private double y;
@@ -39,5 +38,9 @@ public class Punto implements IPunto {
     public void mover(double dx, double dy){
         x += dx;
         y += dy;
+    }
+    public void mover(Vector v){
+        x += v.coord(0);
+        y += v.coord(1);
     }
 }
