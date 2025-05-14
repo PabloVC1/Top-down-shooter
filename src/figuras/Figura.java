@@ -1,70 +1,57 @@
 package figuras;
-/** 
- * Implementaci�n de una figura geom�trica en el plano 
- * especificada en IFigura.
- */
+
 import java.awt.Color;
-import stdlib.StdRandom;
 
-public abstract class Figura implements IFigura 
-{ 
-  private IPunto posicion;
-  private Color color;
-  private boolean rellena; 
-  
-  public Figura (IPunto posicion, Color color) {
-    this.posicion = posicion;
-    this.color = color;
-    rellena = true;
-  }
+public abstract class Figura implements IFigura {
+    protected Color color;
+    protected Punto centroide;
+    protected Punto[] boundingBox = new Punto[2];
+    protected java.awt.geom.Area area;
+    protected static int ESCALA = 1000;
 
-  // alea -> aleatorio
-  public static Color colorAlea () {
-    int r = StdRandom.uniformInt(256);
-    int g = StdRandom.uniformInt(256);
-    int b = StdRandom.uniformInt(256);
-    return new Color(r,g,b);
-  }
-
-  public Figura (IPunto posicion) {
-    this.posicion = posicion;
-    color = colorAlea();
-    rellena = false;
-  }
-
-  public IPunto posicion (){
-    return posicion;
-  }
-
-  public Color color (){
-    return color;
-  }
-
-  public boolean rellena (){
-    return rellena;
-  }
-
-  public String toString (){
-    return "Figura[posicion= "+posicion.toString()+", color= "+ color+", relleno= "+ rellena+"]";
-  }
-
-  public boolean equals (Object o) {
-    if(!(o instanceof Figura)){
-      return false;
+    public Figura(Color color, Punto centroide) {
+        this.color = color;
+        this.centroide = centroide;
     }
-    Figura figura = (Figura) o;
-    return posicion == figura.posicion && color == figura.color && rellena == figura.rellena;
-  }
 
-  public double distancia (IFigura f){
-    return posicion.distancia(f.posicion());
-  }
+    protected abstract void initArea();
 
-  public void mover (double dx, double dy) {
-    posicion.mover(dx,dy);
-  }
+    public abstract void pintar() ;
+    
+    public void mover(double incX, double incY) {
+        centroide.setX(centroide.x() + incX);
+        centroide.setY(centroide.y() + incY);
+    }
 
-  public abstract double perimetro ();
-  
-  public abstract void pintar ();
+    public boolean colisiona(Figura otraFigura){
+        if (!(boundingBox[1].x() < otraFigura.boundingBox[0].x() || 
+              boundingBox[0].x() > otraFigura.boundingBox[1].x() || 
+              boundingBox[1].y() < otraFigura.boundingBox[0].y() || 
+              boundingBox[0].y() > otraFigura.boundingBox[1].y())){
+            java.awt.geom.Area intersection = new java.awt.geom.Area(area);
+            intersection.intersect(otraFigura.area);
+            return !intersection.isEmpty();
+        }
+        return false;
+    }
+
+    public Punto getCentroide(){
+        return centroide;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public double getWidth(){
+        return boundingBox[1].x()-boundingBox[0].x();
+    }
+
+    public double getHeight(){
+        return boundingBox[1].y()-boundingBox[0].y();
+    }
 }

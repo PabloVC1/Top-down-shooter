@@ -1,96 +1,67 @@
 package figuras;
 
 import java.awt.Color;
+import java.util.List;
+
 import stdlib.StdDraw;
-import tads.IList;
-import tads.ArrayList;
-/** 
- * Polígono.
- * Representa un polígono formado por una colección 
- * de Punto(s)
- * Poligono hereda de Figura:
- *   - El primer punto de puntos está representado
- *     por la posicion de Figura.  
- */
-public class Poligono extends Figura{
-  private IList<IPunto> vertices;
 
-  /**
-   * Poligono (puntos : Punto[]) 
-   * PRE: longitud(puntos) >= 2
-   * POST: Crea un Poligono relleno de color azul
-   *       con un array de puntos enteros puntos. Deja 
-   *       el primer punto de puntos como posicion de 
-   *       Figura.
-   */
-  public Poligono (IPunto[] puntos, Color color)  {
-    super(puntos[0],color);
-    vertices = new ArrayList<>();
-    for(int i = 0; i < puntos.length; i++){
-      vertices.add(puntos[i]);
+public class Poligono extends Figura {
+
+    private double xPoly[] ;
+    private double yPoly[] ;
+
+    public Poligono(Color color, Punto centroide, List<Punto> vertices) {
+        super(color, centroide);
+        xPoly = new double[vertices.size()];
+        yPoly = new double[vertices.size()];
+        this.boundingBox[0] = new Punto(centroide.x(), centroide.y());
+        this.boundingBox[1] = new Punto(centroide.x(), centroide.y());
+        
+        for (int i=0;i<vertices.size();i++){
+            xPoly[i] = vertices.get(i).x();
+            yPoly[i] = vertices.get(i).y();
+        }
+        initArea();
     }
-  }
 
-  public Poligono (IPunto[] puntos)  {
-    super(puntos[0]);
-    vertices = new ArrayList<>();
-    for(int i = 0; i < puntos.length; i++){
-      vertices.add(puntos[i]);
+    @Override
+    public void mover(double incX, double incY) {
+        super.mover(incX, incY);
+        for (int i=0;i<xPoly.length;i++){
+            xPoly[i] = xPoly[i] + incX;
+            yPoly[i] = yPoly[i] + incY;
+        }
+        initArea();
     }
-  }
 
-  public int size (){
-    return vertices.size();
-  }
-
-  public IPunto get (int i){
-    return vertices.get(i);
-  }
-
-  @Override
-  public String toString (){
-    return "Polígono[Vértices= "+ vertices.toString()+ ", "+ super.toString()+"]";
-  }
-
-  @Override
-  public boolean equals (Object o) {
-    if(!(o instanceof Poligono))
-      return false;
-    Poligono poligono = (Poligono) o;
-
-  return vertices.equals(poligono.vertices) && super.equals(poligono);
-
-  }
-
-  @Override
-  public void mover (double dx, double dy) {
-    super.mover(dx,dy);
-  }
-
-  public double perimetro (){
-    double perimetro = 0;
-    for(int i = 0 ; i < vertices.size()-1; i++){
-      perimetro += vertices.get(i).distancia(vertices.get(i+1));
+    @Override
+    public void pintar() {
+        StdDraw.setPenColor(color);
+        StdDraw.filledPolygon(xPoly, yPoly);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.polygon(xPoly, yPoly);
     }
-    return perimetro;
-  }
 
-  public void pintar ()
-  {
-    double[] abscisas = new double[vertices.size()];
-    double[] ordenadas = new double[vertices.size()];
-    for (int i=0; i<vertices.size(); i++)
-    {
-      abscisas[i] = vertices.get(i).x();
-      ordenadas[i] = vertices.get(i).y();
+    @Override
+    protected void initArea() {
+        this.boundingBox[0] = new Punto(centroide.x(), centroide.y());
+        this.boundingBox[1] = new Punto(centroide.x(), centroide.y());
+        int[] ixPoly = new int[xPoly.length];
+        int[] iyPoly = new int[yPoly.length];
+        for (int i=0;i<ixPoly.length;i++){
+            ixPoly[i] = (int)Math.round(xPoly[i]*Figura.ESCALA);
+            iyPoly[i] = (int)Math.round(yPoly[i]*Figura.ESCALA);
+            if (xPoly[i]<this.boundingBox[0].x())
+                this.boundingBox[0].setX(xPoly[i]);
+            if (xPoly[i]>this.boundingBox[1].x())
+                this.boundingBox[1].setX(xPoly[i]);
+            if (yPoly[i]<this.boundingBox[0].y())
+                this.boundingBox[0].setY(yPoly[i]);
+            if (yPoly[i]>this.boundingBox[1].y())
+                this.boundingBox[1].setY(yPoly[i]);
+        }
+        java.awt.Polygon  polygon = new java.awt.Polygon(ixPoly,iyPoly,yPoly.length);
+        area = new java.awt.geom.Area(polygon);
     }
-    StdDraw.setPenColor(color());
-    if (rellena())
-      StdDraw.filledPolygon(abscisas, ordenadas);
-    else
-      StdDraw.polygon(abscisas, ordenadas);
-    StdDraw.setPenColor(StdDraw.BLACK);
-    StdDraw.point(super.posicion().x(), super.posicion().y());
-  }
-  
+    
 }

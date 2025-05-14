@@ -9,7 +9,7 @@ public class Vector {
         coords[1] = y;
     }
 
-    public Vector(IPunto p1, IPunto p2){
+    public Vector(Punto p1, Punto p2){
         coords = new double[2];
         coords[0] = p2.x() - p1.x();
         coords[1] = p2.y() - p1.y();

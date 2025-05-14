@@ -44,16 +44,20 @@ public class Entidad {
 
 //Positivo para curar, Negativo hace daño
     public void changeVida(int daño){
-        vida+=daño;
+        if(vida+daño < vidaMax)
+            vida+=daño;
+        else vida= vidaMax;
     }
 
     public void mover(){
-        posicion.mover(velocidad);
     }
 
 //dispuesto mejorar entidades
     public void setVelocidad(Vector v){
         velocidad = v;
     }
+
+//funcion de colision con otra entidad usando lo del otro juego (initArea)
+
 
 }
