@@ -1,4 +1,4 @@
-package figuras;
+package model.base;
 
 import java.awt.Color;
 
@@ -19,15 +19,15 @@ public abstract class Figura implements IFigura {
     public abstract void pintar() ;
     
     public void mover(double incX, double incY) {
-        centroide.setX(centroide.x() + incX);
-        centroide.setY(centroide.y() + incY);
+        centroide.setX(centroide.getX() + incX);
+        centroide.setY(centroide.getY() + incY);
     }
 
     public boolean colisiona(Figura otraFigura){
-        if (!(boundingBox[1].x() < otraFigura.boundingBox[0].x() || 
-              boundingBox[0].x() > otraFigura.boundingBox[1].x() || 
-              boundingBox[1].y() < otraFigura.boundingBox[0].y() || 
-              boundingBox[0].y() > otraFigura.boundingBox[1].y())){
+        if (!(boundingBox[1].getX() < otraFigura.boundingBox[0].getX() || 
+              boundingBox[0].getX() > otraFigura.boundingBox[1].getX() || 
+              boundingBox[1].getY() < otraFigura.boundingBox[0].getY() || 
+              boundingBox[0].getY() > otraFigura.boundingBox[1].getY())){
             java.awt.geom.Area intersection = new java.awt.geom.Area(area);
             intersection.intersect(otraFigura.area);
             return !intersection.isEmpty();
@@ -48,10 +48,10 @@ public abstract class Figura implements IFigura {
     }
 
     public double getWidth(){
-        return boundingBox[1].x()-boundingBox[0].x();
+        return boundingBox[1].getX()-boundingBox[0].getX();
     }
 
     public double getHeight(){
-        return boundingBox[1].y()-boundingBox[0].y();
+        return boundingBox[1].getY()-boundingBox[0].getY();
     }
 }

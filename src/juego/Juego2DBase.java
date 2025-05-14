@@ -3,9 +3,10 @@ package juego;
 import java.awt.Color;
 import stdlib.StdDraw;
 
-public abstract class Juego{
+public abstract class Juego2DBase {
     public static final int XMAX = 600;
     public static final int YMAX = 600;
+    public static final int BORDE= 10;
     public static final int ESCALA = 100;
     public static final Color DEFAULT_COLOR = StdDraw.BLACK;
     public static final int ESPACIO = 32; 
@@ -18,7 +19,7 @@ public abstract class Juego{
       StdDraw.enableDoubleBuffering();
       StdDraw.setCanvasSize(XMAX, YMAX);
       StdDraw.setScale(0, ESCALA);
-      StdDraw.setPenRadius(5);
+      // StdDraw.setPenRadius(5);
       StdDraw.setPenColor(DEFAULT_COLOR);
     } 
 
@@ -44,8 +45,6 @@ public abstract class Juego{
         // render the ball and the paddle.
         pintarObjetos();
 
-        //pintarUI();
-
         // check game over
         haPerdido = comprobarCondicionesSeguirJugando();
         
@@ -62,16 +61,17 @@ public abstract class Juego{
 
       
     private void clear() {
-        StdDraw.clear(StdDraw.LIGHT_GRAY); 
+        StdDraw.clear(StdDraw.LIGHT_GRAY);
+        StdDraw.rectangle(XMAX, YMAX, ESPACIO, ESCALA);
     }
 
     abstract protected void finalizarJuego();
   
     abstract protected boolean comprobarCondicionesSeguirJugando();
   
-    abstract protected void pintarObjetos() ;
+    abstract protected void pintarObjetos();
   
-    abstract protected void comprobarColisiones() ;
+    abstract protected void comprobarColisiones();
   
     abstract protected void moverObjetos();
 }

@@ -1,4 +1,4 @@
-package figuras;
+package model.base;
 
 public interface IFigura {
     public void pintar();

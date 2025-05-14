@@ -1,4 +1,4 @@
-package figuras;
+package model.base;
 
 import java.awt.Color;
 import java.util.List;
@@ -14,12 +14,12 @@ public class Poligono extends Figura {
         super(color, centroide);
         xPoly = new double[vertices.size()];
         yPoly = new double[vertices.size()];
-        this.boundingBox[0] = new Punto(centroide.x(), centroide.y());
-        this.boundingBox[1] = new Punto(centroide.x(), centroide.y());
+        this.boundingBox[0] = new Punto(centroide.getX(), centroide.getY());
+        this.boundingBox[1] = new Punto(centroide.getX(), centroide.getY());
         
         for (int i=0;i<vertices.size();i++){
-            xPoly[i] = vertices.get(i).x();
-            yPoly[i] = vertices.get(i).y();
+            xPoly[i] = vertices.get(i).getX();
+            yPoly[i] = vertices.get(i).getY();
         }
         initArea();
     }
@@ -44,20 +44,20 @@ public class Poligono extends Figura {
 
     @Override
     protected void initArea() {
-        this.boundingBox[0] = new Punto(centroide.x(), centroide.y());
-        this.boundingBox[1] = new Punto(centroide.x(), centroide.y());
+        this.boundingBox[0] = new Punto(centroide.getX(), centroide.getY());
+        this.boundingBox[1] = new Punto(centroide.getX(), centroide.getY());
         int[] ixPoly = new int[xPoly.length];
         int[] iyPoly = new int[yPoly.length];
         for (int i=0;i<ixPoly.length;i++){
             ixPoly[i] = (int)Math.round(xPoly[i]*Figura.ESCALA);
             iyPoly[i] = (int)Math.round(yPoly[i]*Figura.ESCALA);
-            if (xPoly[i]<this.boundingBox[0].x())
+            if (xPoly[i]<this.boundingBox[0].getX())
                 this.boundingBox[0].setX(xPoly[i]);
-            if (xPoly[i]>this.boundingBox[1].x())
+            if (xPoly[i]>this.boundingBox[1].getX())
                 this.boundingBox[1].setX(xPoly[i]);
-            if (yPoly[i]<this.boundingBox[0].y())
+            if (yPoly[i]<this.boundingBox[0].getY())
                 this.boundingBox[0].setY(yPoly[i]);
-            if (yPoly[i]>this.boundingBox[1].y())
+            if (yPoly[i]>this.boundingBox[1].getY())
                 this.boundingBox[1].setY(yPoly[i]);
         }
         java.awt.Polygon  polygon = new java.awt.Polygon(ixPoly,iyPoly,yPoly.length);

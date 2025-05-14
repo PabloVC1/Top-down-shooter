@@ -1,4 +1,4 @@
-package figuras;
+package model.base;
 
 public class Punto {
     private double x, y;
@@ -13,26 +13,20 @@ public class Punto {
         return "(" + x + ", " + y + ")";
     }
 
-    public double x() {
+    public double getX() {
         return x;
     }
-
 
     public void setX(double x) {
         this.x = x;
     }
 
-    public double y() {
+    public double getY() {
         return y;
     }
 
     public void setY(double y) {
         this.y = y;
-    }
-
-    public void mover(Vector v){
-        x += v.coord(0);
-        x += v.coord(1);
     }
 
 }
