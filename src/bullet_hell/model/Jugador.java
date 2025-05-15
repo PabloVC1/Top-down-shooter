@@ -17,7 +17,8 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     }
 
     
-    //De la lista va uno a uno y coge al que más cerca esté y que no esté en cooldown
+    //Si no está en cooldown, de la lista va uno a uno y coge al que más cerca 
+    //esté dentro de ese rango de ataque y lo mata (enemigo.recibirImpacto())
     public void atacar(IList<Enemigo> enemigos) {
     }
 
@@ -26,7 +27,15 @@ public class Jugador extends ObjetoGraficoDeUsuario {
 
     }
 
-
+    //calcula la distancia a un enemigo
     private double distanciaA(Enemigo enemigo) {
+    }
+
+    //devuelve un booleano si su vida es mayor a cero
+    public boolean estaVivo(){
+    }
+
+    public boolean hayColision(Enemigo enemigo){
+
     }
 }

@@ -9,7 +9,7 @@ public abstract class ObjetoGraficoDeUsuario extends ObjetoGrafico {
     private int teclaDerecha = -1;
     private int teclaIzquierda = -1;
     private boolean usarRaton = false; 
-    public static final int STEP_MOVE = 100;
+    public static final int STEP_MOVE = 5;
 
 
     public ObjetoGraficoDeUsuario(IFigura figura){
