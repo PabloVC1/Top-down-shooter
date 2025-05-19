@@ -67,15 +67,18 @@ public class BulletHellGame extends Juego2DBase {
         }
 
         StdDraw.filledRectangle(xCentro - (anchoMax - anchoVida) / 2, margenInferior, anchoVida / 2, alto / 2);
-        
+
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.rectangle(xCentro, margenInferior, anchoVida/2, alto/2);
     }
 
     protected void comprobarColisiones(){
-        for(int i=0; i<enemigos.size(); i++){
+        for(int i=enemigos.size()-1; i<=0; i--){
             if(player.hayColision(enemigos.get(i))){
                 player.recibirImpacto(enemigos.get(i));
+                if(enemigos.get(i).estaMuerto()){
+                    enemigos.remove(i);
+                }
             }
             enemigos.get(i).avanzar();
         }
