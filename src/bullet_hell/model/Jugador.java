@@ -15,13 +15,12 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     private static final double RADIO_ATAQUE = 15; //este será el área de daño 
     private static final double RADIO= 5;
     private long ultimoAtaqueTime = 0;
-    private int vida = 100; 
-    private final long cooldown; //en milisegundos
+    private int vida = 100;
+    private final long cooldown=3000; //en milisegundos
 
     //constructor del jugador 
-    public Jugador(long cooldown){
+    public Jugador(){
         super(new Circulo(Color.BLUE, new Punto(50, 50), RADIO), 'W', 'S', 'D', 'A');
-        this.cooldown = cooldown;
     }
 
     //Si no está en cooldown, de la lista va uno a uno y coge al que más cerca 
@@ -42,7 +41,7 @@ public class Jugador extends ObjetoGraficoDeUsuario {
             }
         }
         if (objetivo != null) { //si hay objetivo (el enemigo mas cercano dentro del area de ataque) 
-            objetivo.recibirImpacto();//dispara al enemigo
+            objetivo.recibirImpacto(this);//dispara al enemigo
             ultimoAtaqueTime = System.currentTimeMillis(); //iguala el tiempo del ultimo ataque
         }
 
@@ -53,9 +52,10 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     }
 
     //Resta su vida
-    public void recibirImpacto(ObjetoGrafico Enemigo){
-        if(Enemigo instanceof Enemigo){
-            vida= vida-((Enemigo)Enemigo).getDaño(); //resta el daño correspondiente al tipo de enemigo
+    public void recibirImpacto(ObjetoGrafico enemigo){
+        if(enemigo instanceof Enemigo){
+            Enemigo otro = (Enemigo) enemigo;
+            vida -= otro.hacerDano(); //resta el daño correspondiente al tipo de enemigo
         }
     }
 

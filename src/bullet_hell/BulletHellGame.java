@@ -60,7 +60,7 @@ public class BulletHellGame extends Juego2DBase {
             enemigos.get(i).avanzar();
         }
         if (StdDraw.isKeyPressed(player.getTeclaSubir())) {
-        player.eventoUsuarioTeclaMover(player.getTeclaSubir());
+            player.eventoUsuarioTeclaMover(player.getTeclaSubir());
         }
         if (StdDraw.isKeyPressed(player.getTeclaBajar())) {
             player.eventoUsuarioTeclaMover(player.getTeclaBajar());
