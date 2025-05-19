@@ -12,10 +12,10 @@ import java.awt.Color;
 import juego.Juego2DBase;
 
 public class Jugador extends ObjetoGraficoDeUsuario {
-    private static final double RADIO_ATAQUE = 100; //este será el área de daño 
+    private static final double RADIO_ATAQUE = 30; //este será el área de daño 
     private static final double RADIO= 5;
     private long ultimoAtaqueTime = 0;
-    private int vida = 100;
+    private int vida = 100; 
     private final long cooldown=3000; //en milisegundos
 
     //constructor del jugador 
@@ -54,8 +54,8 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     //Resta su vida
     public void recibirImpacto(ObjetoGrafico enemigo){
         if(enemigo instanceof Enemigo){
-            Enemigo otro = (Enemigo) enemigo;
-            vida -= otro.hacerDano(); //resta el daño correspondiente al tipo de enemigo
+            Enemigo otro= (Enemigo) enemigo;
+            vida-=otro.hacerDano(); //resta el daño correspondiente al tipo de enemigo
         }
     }
 
@@ -72,25 +72,42 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     }
 
     //comprueba que el jugador permanece en el terreno de juego
-    public boolean hayColision(){
+    public boolean hayColisionconX(){
             Circulo jugador = (Circulo) getFigura();
             double x= jugador.getCentroide().getX(); //coordenada x del centro
-            double y=jugador.getCentroide().getY(); //coordenanda y del centro
             double radiojug=RADIO; //radio jugador
             boolean dentroX=(x-radiojug>=0)&&(x+radiojug<=Juego2DBase.ESCALA); //comprueba que no este dentro del terreno
-            boolean dentroY=(y-radiojug>=0)&&(y+radiojug<=Juego2DBase.ESCALA);
-            return dentroX && dentroY;  
+            return dentroX;  
     }
-
+     public boolean hayColisionconY(){
+            Circulo jugador = (Circulo) getFigura();
+            double y=jugador.getCentroide().getY(); //coordenanda y del centro
+            double radiojug=RADIO; //radio jugador
+            boolean dentroY=(y-radiojug>=0)&&(y+radiojug<=Juego2DBase.ESCALA);
+            return dentroY;  
+    }
+    public int getVida(){
+        return vida;
+    }
     //desplaza al jugador
     @Override
     public void efectuarMovimiento(double vX, double vY) {
         //comprueba si esta dentro del terreno
-        if(!(hayColision()))
-            return;
+        if(!(hayColisionconX()))
+            if(getFigura().getCentroide().getX()<5)
+                getFigura().mover(0,vY);
+            if(getFigura().getCentroide().getX()<95)
+                getFigura().mover(0,vY);
+        if(!(hayColisionconY()))
+            if(!(hayColisionconY()))
+            if(getFigura().getCentroide().getY()<5)
+                getFigura().mover(vX,0);
+            if(getFigura().getCentroide().getY()<95)
+                getFigura().mover(vX,0);
         //lo mueve
         else{
             getFigura().mover(vX, vY);
         }
+        System.out.println(getFigura().getCentroide());
     }
 }
