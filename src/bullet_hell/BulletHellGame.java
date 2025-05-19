@@ -49,14 +49,15 @@ public class BulletHellGame extends Juego2DBase {
         if(player.hayColision(enemigos.get(i))){
             player.recibirImpacto(enemigos.get(i));
         }
-    }
-
+    
     player.atacar(enemigos);
+    }
 }
     protected void moverObjetos(){
        for(int i = 0; i < enemigos.size(); i++){
         enemigos.get(i).avanzar(enemigos);
     }
+    
         if (StdDraw.isKeyPressed(player.getTeclaSubir())) {
             player.eventoUsuarioTeclaMover(player.getTeclaSubir());
         }
