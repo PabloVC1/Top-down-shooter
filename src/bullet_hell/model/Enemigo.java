@@ -32,7 +32,9 @@ public class Enemigo extends ObjetoGraficoMovil {
     }
     public void ultimoAtaqueTime(){
     }
-
+    public int getDaño(){
+        return daño;
+    }
     //muere
     public void recibirImpacto(){
 
