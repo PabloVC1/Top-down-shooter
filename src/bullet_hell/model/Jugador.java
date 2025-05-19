@@ -52,8 +52,8 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     //Resta su vida
     public void recibirImpacto(ObjetoGrafico enemigo){
         if(enemigo instanceof Enemigo){
-            Enemigo otro= (Enemigo) enemigo;
-            vida-=otro.hacerDano(); //resta el daño correspondiente al tipo de enemigo
+            Enemigo otro = (Enemigo) enemigo;
+            vida -= otro.hacerDano(); //resta el daño correspondiente al tipo de enemigo
         }
     }
 
@@ -91,8 +91,8 @@ public class Jugador extends ObjetoGraficoDeUsuario {
         }
     }
 
-    public int vida(){
+    public double vida(){
         System.out.println(vida);
-        return vida;
+        return (double) vida;
     }
 }
