@@ -71,43 +71,27 @@ public class Jugador extends ObjetoGraficoDeUsuario {
         return vida>0;
     }
 
-    //comprueba que el jugador permanece en el terreno de juego
-    public boolean hayColisionconX(){
-            Circulo jugador = (Circulo) getFigura();
-            double x= jugador.getCentroide().getX(); //coordenada x del centro
-            double radiojug=RADIO; //radio jugador
-            boolean dentroX=(x-radiojug>=0)&&(x+radiojug<=Juego2DBase.ESCALA); //comprueba que no este dentro del terreno
-            return dentroX;  
-    }
-     public boolean hayColisionconY(){
-            Circulo jugador = (Circulo) getFigura();
-            double y=jugador.getCentroide().getY(); //coordenanda y del centro
-            double radiojug=RADIO; //radio jugador
-            boolean dentroY=(y-radiojug>=0)&&(y+radiojug<=Juego2DBase.ESCALA);
-            return dentroY;  
-    }
-    public int getVida(){
-        return vida;
-    }
     //desplaza al jugador
-    @Override
+   @Override
     public void efectuarMovimiento(double vX, double vY) {
-        //comprueba si esta dentro del terreno
-        if(!(hayColisionconX()))
-            if(getFigura().getCentroide().getX()<5)
-                getFigura().mover(0,vY);
-            if(getFigura().getCentroide().getX()<95)
-                getFigura().mover(0,vY);
-        if(!(hayColisionconY()))
-            if(!(hayColisionconY()))
-            if(getFigura().getCentroide().getY()<5)
-                getFigura().mover(vX,0);
-            if(getFigura().getCentroide().getY()<95)
-                getFigura().mover(vX,0);
-        //lo mueve
-        else{
+        Circulo jugador = (Circulo) getFigura();
+        Punto centro = jugador.getCentroide();
+        double nuevoX = centro.getX() + vX;
+        double nuevoY = centro.getY() + vY;
+        double radio = RADIO;
+
+        // Verificamos si el nuevo centro estará dentro de los límites del mapa
+        boolean dentroX = (nuevoX - radio >= 0) && (nuevoX + radio <= Juego2DBase.ESCALA);
+        boolean dentroY = (nuevoY - radio >= 0) && (nuevoY + radio <= Juego2DBase.ESCALA);
+
+        if (dentroX && dentroY) {
             getFigura().mover(vX, vY);
+         } else if (dentroX) {
+            getFigura().mover(vX, 0);
+        } else if (dentroY) {
+            getFigura().mover(0, vY);
         }
+    
         System.out.println(getFigura().getCentroide());
     }
 }
