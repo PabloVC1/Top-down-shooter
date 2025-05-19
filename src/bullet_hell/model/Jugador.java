@@ -26,16 +26,13 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     //Si no está en cooldown, de la lista va uno a uno y coge al que más cerca 
     //esté dentro de ese rango de ataque y lo mata (enemigo.recibirImpacto())
     public void atacar(IList<Enemigo> enemigos){
-        if (!puedeAtacar()) 
-            return;
-        //jugador no esta en cooldown 
         Enemigo objetivo = null;
         double distanciaMin = Double.MAX_VALUE;
         Punto centro = getFigura().getCentroide();
-        for (int i = 0; i < enemigos.size(); i++){ //repite hasta terminar con todos los enemigos
+        for (int i = 0; i < enemigos.size() && puedeAtacar(); i++){ //repite hasta terminar con todos los enemigos
             Enemigo enemigo = enemigos.get(i); //obtiene el elemento de la lista Enemigo
             double distancia = distanciaA(enemigo); //calcula la distancia a enemigo
-            if (distancia <= RADIO_ATAQUE && distancia < distanciaMin){ //si el enemigo está dentro del radio y es la minima distancia 
+            if (distancia <= RADIO_ATAQUE && distancia <= distanciaMin){ //si el enemigo está dentro del radio y es la minima distancia 
                 distanciaMin = distancia; //nueva minima distancia
                 objetivo = enemigo; //nuevo objetivo ya que atacamos al más cercano
             }
