@@ -89,8 +89,4 @@ public class Jugador extends ObjetoGraficoDeUsuario {
             getFigura().mover(0, vY);
         }
     }
-
-    public int vida(){
-        return vida;
-    }
 }
