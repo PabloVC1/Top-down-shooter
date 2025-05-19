@@ -45,6 +45,9 @@ public abstract class Juego2DBase {
         // render the ball and the paddle.
         pintarObjetos();
 
+        // render UHD
+        pintarInterfaz();
+
         // check game over
         haPerdido = comprobarCondicionesSeguirJugando();
         
@@ -70,6 +73,8 @@ public abstract class Juego2DBase {
     abstract protected boolean comprobarCondicionesSeguirJugando();
   
     abstract protected void pintarObjetos();
+
+    abstract protected void pintarInterfaz();
   
     abstract protected void comprobarColisiones();
   
