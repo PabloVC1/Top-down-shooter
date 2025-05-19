@@ -14,7 +14,7 @@ import java.util.Random;
  * y evita solaparse con otros enemigos aplicando una fuerza de separación.
  */
 public class Enemigo extends ObjetoGraficoMovil {
-    private static final double VELOCIDAD = 0.4;
+    private static final double VELOCIDAD = 0.2;
     private static final double RADIO = 3;
     private static final long COOLDOWN_ATAQUE = 1000;
     private static final double FUERZA_SEPARACION = 0.8;

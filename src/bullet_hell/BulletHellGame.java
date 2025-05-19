@@ -67,8 +67,7 @@ public class BulletHellGame extends Juego2DBase {
         }
 
         StdDraw.filledRectangle(xCentro - (anchoMax - anchoVida) / 2, margenInferior, anchoVida / 2, alto / 2);
-
-        // Borde negro
+        
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.rectangle(xCentro, margenInferior, anchoVida/2, alto/2);
     }
@@ -86,7 +85,7 @@ public class BulletHellGame extends Juego2DBase {
 
     protected void moverObjetos(){
         for(int i = 0; i < enemigos.size(); i++){
-            enemigos.get(i).avanzar();
+            enemigos.get(i).avanzar(enemigos);
         }
         if (StdDraw.isKeyPressed(player.getTeclaSubir())) {
             player.eventoUsuarioTeclaMover(player.getTeclaSubir());
