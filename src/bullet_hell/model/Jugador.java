@@ -29,7 +29,6 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     public void atacar(IList<Enemigo> enemigos){
         Enemigo objetivo = null;
         double distanciaMin = Double.MAX_VALUE;
-        Punto centro = getFigura().getCentroide();
         for (int i = 0; i < enemigos.size() && puedeAtacar(); i++){ //repite hasta terminar con todos los enemigos
             Enemigo enemigo = enemigos.get(i); //obtiene el elemento de la lista Enemigo
             double distancia = distanciaA(enemigo); //calcula la distancia a enemigo
