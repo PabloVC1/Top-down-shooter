@@ -73,16 +73,15 @@ public class BulletHellGame extends Juego2DBase {
     }
 
     protected void comprobarColisiones(){
-        for(int i=enemigos.size()-1; i<=0; i--){
+        for(int i=enemigos.size()-1; i>=0; i--){
+            enemigos.get(i).avanzar();  // Cambiado <= por >=
             if(player.hayColision(enemigos.get(i))){
                 player.recibirImpacto(enemigos.get(i));
                 if(enemigos.get(i).estaMuerto()){
                     enemigos.remove(i);
                 }
             }
-            enemigos.get(i).avanzar();
         }
-
         player.atacar(enemigos);
     }
 

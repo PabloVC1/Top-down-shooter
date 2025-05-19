@@ -12,7 +12,7 @@ import java.awt.Color;
 import juego.Juego2DBase;
 
 public class Jugador extends ObjetoGraficoDeUsuario {
-    private static final double RADIO_ATAQUE = 30; //este será el área de daño 
+    private static final double RADIO_ATAQUE = 50; //este será el área de daño 
     private static final double RADIO= 5;
     private long ultimoAtaqueTime = 0;
     private int vida = 100; 
@@ -27,9 +27,10 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     //Si no está en cooldown, de la lista va uno a uno y coge al que más cerca 
     //esté dentro de ese rango de ataque y lo mata (enemigo.recibirImpacto())
     public void atacar(IList<Enemigo> enemigos){
+        if(!puedeAtacar()) return; //si no puede atacar no hace nada
         Enemigo objetivo = null;
         double distanciaMin = Double.MAX_VALUE;
-        for (int i = 0; i < enemigos.size() && puedeAtacar(); i++){ //repite hasta terminar con todos los enemigos
+        for (int i = 0; i < enemigos.size(); i++){ //repite hasta terminar con todos los enemigos
             Enemigo enemigo = enemigos.get(i); //obtiene el elemento de la lista Enemigo
             double distancia = distanciaA(enemigo); //calcula la distancia a enemigo
             if (distancia <= RADIO_ATAQUE && distancia <= distanciaMin){ //si el enemigo está dentro del radio y es la minima distancia 
@@ -45,7 +46,7 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     }
     
     public boolean puedeAtacar(){
-        return System.currentTimeMillis()-ultimoAtaqueTime<=cooldown;//comprueba si el jugador esta en cooldown
+        return System.currentTimeMillis()-ultimoAtaqueTime >= cooldown;//comprueba si el jugador esta en cooldown
     }
 
     //Resta su vida
