@@ -44,20 +44,50 @@ public class BulletHellGame extends Juego2DBase {
         }
     }
 
-    protected void comprobarColisiones(){
-    for(int i=0; i<enemigos.size(); i++){
-        if(player.hayColision(enemigos.get(i))){
-            player.recibirImpacto(enemigos.get(i));
+    
+    protected void pintarInterfaz(){
+        double anchoMax = 50;
+        double alto = 3;
+        double margenInferior = 5;
+        double xCentro = 30;
+        double porcentajeVida = player.vida()/100;
+        double anchoVida = anchoMax * porcentajeVida;
+
+
+
+        StdDraw.setPenColor(StdDraw.DARK_GRAY);
+        StdDraw.filledRectangle(xCentro, margenInferior, anchoMax / 2, alto / 2);
+
+        if(porcentajeVida > 0.6){
+            StdDraw.setPenColor(StdDraw.GREEN);
+        }else if(porcentajeVida > 0.2){
+            StdDraw.setPenColor(StdDraw.ORANGE);
+        }else{
+            StdDraw.setPenColor(StdDraw.RED);
         }
-    
-    player.atacar(enemigos);
+
+        StdDraw.filledRectangle(xCentro - (anchoMax - anchoVida) / 2, margenInferior, anchoVida / 2, alto / 2);
+
+        // Borde negro
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.rectangle(xCentro, margenInferior, anchoVida/2, alto/2);
     }
-}
+
+    protected void comprobarColisiones(){
+        for(int i=0; i<enemigos.size(); i++){
+            if(player.hayColision(enemigos.get(i))){
+                player.recibirImpacto(enemigos.get(i));
+            }
+            enemigos.get(i).avanzar();
+        }
+
+        player.atacar(enemigos);
+    }
+
     protected void moverObjetos(){
-       for(int i = 0; i < enemigos.size(); i++){
-        enemigos.get(i).avanzar(enemigos);
-    }
-    
+        for(int i = 0; i < enemigos.size(); i++){
+            enemigos.get(i).avanzar();
+        }
         if (StdDraw.isKeyPressed(player.getTeclaSubir())) {
             player.eventoUsuarioTeclaMover(player.getTeclaSubir());
         }
