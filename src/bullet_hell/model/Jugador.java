@@ -91,7 +91,5 @@ public class Jugador extends ObjetoGraficoDeUsuario {
         } else if (dentroY) {
             getFigura().mover(0, vY);
         }
-    
-        System.out.println(getFigura().getCentroide());
     }
 }
