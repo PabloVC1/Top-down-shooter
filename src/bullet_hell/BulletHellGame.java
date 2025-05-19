@@ -26,10 +26,13 @@ public class BulletHellGame extends Juego2DBase {
     }
 
     protected void finalizarJuego() {
+      enemigos = new LinkedList<>();
+      StdDraw.setPenColor(StdDraw.WHITE);
+      StdDraw.filledRectangle(50, 50, 12, 4);
+      StdDraw.filledRectangle(50, 60, 16, 4);
+      StdDraw.setPenColor(StdDraw.BLACK);
       StdDraw.text(50, 50, "Juego Terminado");
       StdDraw.text(50, 60, "Enemigos derrotados : " + score);
-      for(int i=0;i<enemigos.size();i++)
-        enemigos.get(i).avanzar();
       StdDraw.show();
     }
 
@@ -41,6 +44,13 @@ public class BulletHellGame extends Juego2DBase {
         player.pintar();
         for(int i = 0; i < enemigos.size(); i++){
             enemigos.get(i).pintar();
+            if(enemigos.get(i).estaMuerto()){
+                    enemigos.remove(i);
+                    score++;
+                    if(score % 2 == 0){
+                        agregarEnemigos(++dificultad , dificultad*5);
+                    }
+            }
         }
     }
 
@@ -51,7 +61,9 @@ public class BulletHellGame extends Juego2DBase {
         double margenInferior = 5;
         double xCentro = 30;
         double porcentajeVida = player.vida()/100;
+        if(porcentajeVida < 0) porcentajeVida = 0;
         double anchoVida = anchoMax * porcentajeVida;
+        String cooldown = player.cooldown()/1000 + "s";
 
 
 
@@ -69,17 +81,16 @@ public class BulletHellGame extends Juego2DBase {
         StdDraw.filledRectangle(xCentro - (anchoMax - anchoVida) / 2, margenInferior, anchoVida / 2, alto / 2);
 
         StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.rectangle(xCentro, margenInferior, anchoVida/2, alto/2);
+        StdDraw.rectangle(xCentro, margenInferior, anchoMax / 2, alto / 2);
+
+        StdDraw.text(xCentro + anchoMax, margenInferior, cooldown);
     }
 
     protected void comprobarColisiones(){
         for(int i=enemigos.size()-1; i>=0; i--){
-            enemigos.get(i).avanzar();  // Cambiado <= por >=
+            enemigos.get(i).avanzar();
             if(player.hayColision(enemigos.get(i))){
                 player.recibirImpacto(enemigos.get(i));
-                if(enemigos.get(i).estaMuerto()){
-                    enemigos.remove(i);
-                }
             }
         }
         player.atacar(enemigos);

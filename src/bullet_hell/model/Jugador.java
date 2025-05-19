@@ -95,4 +95,8 @@ public class Jugador extends ObjetoGraficoDeUsuario {
         System.out.println(vida);
         return (double) vida;
     }
+
+    public float cooldown(){
+        return (float) ((System.currentTimeMillis() - ultimoAtaqueTime)/10)*10;
+    }
 }
