@@ -21,6 +21,7 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     //constructor del jugador 
     public Jugador(){
         super(new Circulo(Color.BLUE, new Punto(50, 50), RADIO), 'S', 'W', 'D', 'A');
+        
     }
 
     //Si no está en cooldown, de la lista va uno a uno y coge al que más cerca 
@@ -90,6 +91,7 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     }
 
     public int vida(){
+        System.out.println(vida);
         return vida;
     }
 }

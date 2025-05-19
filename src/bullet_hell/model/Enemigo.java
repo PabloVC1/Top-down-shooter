@@ -104,6 +104,7 @@ public class Enemigo extends ObjetoGraficoMovil {
     }
 
     public boolean estaMuerto() {
+        System.out.println("MUERTPPOOOOOOOOOO");
         return vida <= 0;
     }
 }
