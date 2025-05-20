@@ -43,8 +43,7 @@ public class BulletHellGame extends Juego2DBase {
     protected void pintarObjetos(){
         StdDraw.picture(50,50,"src/resources/background.jpg",100,100);
         player.pintar();
-        for(int i = 0; i < enemigos.size(); i++){
-            enemigos.get(i).pintar();
+        for(int i = enemigos.size()-1; i >= 0; i--){
             if(enemigos.get(i).estaMuerto()){
                     enemigos.remove(i);
                     score++;
@@ -52,6 +51,7 @@ public class BulletHellGame extends Juego2DBase {
                         agregarEnemigos(++dificultad , dificultad*5);
                     }
             }
+            enemigos.get(i).pintar();
         }
     }
 
@@ -89,7 +89,6 @@ public class BulletHellGame extends Juego2DBase {
 
     protected void comprobarColisiones(){
         for(int i=enemigos.size()-1; i>=0; i--){
-            enemigos.get(i).avanzar();
             if(player.hayColision(enemigos.get(i))){
                 player.recibirImpacto(enemigos.get(i));
             }
