@@ -28,6 +28,7 @@ public class Enemigo extends ObjetoGraficoMovil {
         super(new Circulo(Color.RED, generarPosicionAleatoria(), RADIO), 1, 0, 0);
         this.jugador = jugador;
         this.daño = daño;
+        setImage("src/resources/vecteezy_an-8-bit-retro-styled-pixel-art-illustration-of-a-goblin_19017599.png");
     }
 
     /**
@@ -104,7 +105,6 @@ public class Enemigo extends ObjetoGraficoMovil {
     }
 
     public boolean estaMuerto() {
-        System.out.println("MUERTPPOOOOOOOOOO");
         return vida <= 0;
     }
 }

@@ -12,7 +12,7 @@ import java.awt.Color;
 import juego.Juego2DBase;
 
 public class Jugador extends ObjetoGraficoDeUsuario {
-    private static final double RADIO_ATAQUE = 50; //este será el área de daño 
+    private static final double RADIO_ATAQUE = 15; //este será el área de daño 
     private static final double RADIO= 5;
     private long ultimoAtaqueTime = 0;
     private int vida = 100; 
@@ -21,7 +21,8 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     //constructor del jugador 
     public Jugador(){
         super(new Circulo(Color.BLUE, new Punto(50, 50), RADIO), 'S', 'W', 'D', 'A');
-        
+        setImage("src/resources/Caballero.png");
+
     }
 
     //Si no está en cooldown, de la lista va uno a uno y coge al que más cerca 
@@ -92,11 +93,11 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     }
 
     public double vida(){
-        System.out.println(vida);
         return (double) vida;
     }
 
     public float cooldown(){
-        return (float) ((System.currentTimeMillis() - ultimoAtaqueTime)/10)*10;
+        if(!puedeAtacar()) return (float) ((System.currentTimeMillis() - ultimoAtaqueTime)/10)*10;
+        return cooldown;
     }
 }
