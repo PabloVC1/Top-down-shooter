@@ -2,6 +2,7 @@ package bullet_hell.model;
 
 import model.ObjetoGrafico;
 import model.ObjetoGraficoDeUsuario;
+import model.ObjetoGraficoMovil;
 import model.base.Circulo;
 import model.base.IFigura;
 import model.base.Punto;
@@ -51,12 +52,15 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     }
 
     //Resta su vida
-    public void recibirImpacto(ObjetoGrafico enemigo){
-        if(enemigo instanceof Enemigo){
-            Enemigo otro = (Enemigo) enemigo;
-            vida -= otro.hacerDano(); //resta el daño correspondiente al tipo de enemigo
-        }
+    @Override
+public void recibirImpacto(ObjetoGrafico otro) {
+    if (otro instanceof Enemigo) {
+        vida -= ((Enemigo) otro).hacerDano();
+    } else if (otro instanceof ObjetoGraficoMovil) {
+        vida -= 5; // Daño fijo por proyectil, puedes ajustar este número
     }
+}
+
 
     //calcula la distancia a un enemigo
     private double distanciaA(Enemigo enemigo){

@@ -7,6 +7,7 @@ import tads.IList;
 import tads.LinkedList;
 import bullet_hell.model.Jugador;
 import bullet_hell.model.Enemigo;
+import model.ObjetoGraficoMovil;
 
 public class BulletHellGame extends Juego2DBase {
     private static int score = 0;
@@ -89,11 +90,23 @@ public class BulletHellGame extends Juego2DBase {
     }
 
     protected void comprobarColisiones(){
-        for(int i=enemigos.size()-1; i>=0; i--){
-            if(player.hayColision(enemigos.get(i))){
-                player.recibirImpacto(enemigos.get(i));
+        for (int i = 0; i < enemigos.size(); i++) {
+            Enemigo enemigo = enemigos.get(i);
+            if (player.hayColision(enemigo)) {
+                player.recibirImpacto(enemigo);
+            }
+
+            // Proyectiles del enemigo
+            for (int j = enemigo.getProyectiles().size() - 1; j >= 0; j--) {
+                ObjetoGraficoMovil proyectil = enemigo.getProyectiles().get(j);
+                if (player.hayColision(proyectil)) {
+                    player.recibirImpacto(proyectil);
+                    enemigo.getProyectiles().remove(j);
+                }
             }
         }
+
+        // El jugador ataca a los enemigos
         player.atacar(enemigos);
     }
 
