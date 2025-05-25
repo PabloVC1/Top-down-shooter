@@ -3,6 +3,11 @@ package juego;
 import java.awt.Color;
 import stdlib.StdDraw;
 
+/**
+ * Hemos reutilizado todo lo del pong de ejemplo,
+ * todos los cambios están documentados (en su mayoría están
+ * en la carpeta bullet_hell).
+ */
 public abstract class Juego2DBase {
     public static final int XMAX = 600;
     public static final int YMAX = 600;
@@ -29,7 +34,15 @@ public abstract class Juego2DBase {
       StdDraw.pause(PASO_MS);
     }
 
-    
+    /**
+     * Bucle principal del juego.
+     * Inicializa los gráficos, mueve los objetos, comprueba colisiones,
+     * pinta los objetos y la interfaz, y comprueba si se ha perdido (para
+     * finalizar el juego).
+     * 
+     * El único cambio respecto al ejemplo de pong es que
+     * se ha añadido un método para pintar la interfaz del juego.
+     */
     public void jugar(){
       iniciarGraficos();
       while (! haPerdido)  { 
@@ -74,7 +87,7 @@ public abstract class Juego2DBase {
   
     abstract protected void pintarObjetos();
 
-    abstract protected void pintarInterfaz();
+    abstract protected void pintarInterfaz(); // Pintar la interfaz del juego, como barras de vida, puntajes, etc. Único cambio
   
     abstract protected void comprobarColisiones();
   

@@ -11,7 +11,7 @@ import java.awt.Color;
 import java.util.Random;
 
 /**
- * Representa a un enemigo que persigue al jugador o dispara si está lejos.
+ * Un enemigo que persigue al jugador o dispara si está lejos.
  */
 public class Enemigo extends ObjetoGraficoMovil {
     private static final double VELOCIDAD = 0.3;
@@ -21,16 +21,14 @@ public class Enemigo extends ObjetoGraficoMovil {
     private static final double FUERZA_SEPARACION = 0.8;
 
     private static final double RANGO_DISPARO = 30;
-    private static final long COOLDOWN_DISPARO = 1500;
+    private static final long COOLDOWN_DISPARO = 3000;
 
     private Jugador jugador;
     private int daño;
     private long ultimoAtaqueTime = 0;
     private long ultimoDisparoTime = 0;
-    private int vida = 1;
-
-    // Lista de proyectiles generados por este enemigo
-    private IList<ObjetoGraficoMovil> proyectiles = new LinkedList<>();
+    private int vida = 1;    
+    private IList<ObjetoGraficoMovil> proyectiles = new LinkedList<>(); // Lista de proyectiles generados por este enemigo
 
     public Enemigo(Jugador jugador, int daño) {
         super(new Circulo(Color.RED, generarPosicionAleatoria(), RADIO), 1, 0, 0);
@@ -100,7 +98,7 @@ public class Enemigo extends ObjetoGraficoMovil {
      * Genera un nuevo proyectil que se dirige hacia el jugador.
      */
     private void disparar(Punto origen, Punto destino) {
-        double velocidad = 1.5;
+        double velocidad = 0.9; // Velocidad del proyectil
         double dx = destino.getX() - origen.getX();
         double dy = destino.getY() - origen.getY();
         double dist = Math.sqrt(dx * dx + dy * dy);
@@ -110,12 +108,12 @@ public class Enemigo extends ObjetoGraficoMovil {
         double incY = velocidad * dy / dist;
 
         ObjetoGraficoMovil proyectil = new ObjetoGraficoMovil(
-            new Circulo(Color.MAGENTA, new Punto(origen.getX(), origen.getY()), 1),
+            new Circulo(Color.WHITE, new Punto(origen.getX(), origen.getY()), 0.6),
             2, incX, incY
         ) {
             @Override
-            public void recibirImpacto(ObjetoGrafico otro) {
-                // Proyectiles no reciben daño.
+            public void recibirImpacto(ObjetoGrafico otro){
+            // Proyectiles no reciben daño.
             }
         };
 
@@ -125,12 +123,12 @@ public class Enemigo extends ObjetoGraficoMovil {
     /**
      * Mueve todos los proyectiles disparados por este enemigo y los elimina si salen del área.
      */
-    private void moverProyectiles() {
+    private void moverProyectiles(){
         for (int i = proyectiles.size() - 1; i >= 0; i--) {
             ObjetoGraficoMovil p = proyectiles.get(i);
             p.avanzar();
             Punto c = p.getFigura().getCentroide();
-            if (c.getX() < 0 || c.getX() > 100 || c.getY() < 0 || c.getY() > 100) {
+            if (c.getX() < 0 || c.getX() > 100 || c.getY() < 0 || c.getY() > 100){
                 proyectiles.remove(i);
             }
         }
@@ -140,28 +138,35 @@ public class Enemigo extends ObjetoGraficoMovil {
      * Pinta al enemigo y a sus proyectiles.
      */
     @Override
-    public void pintar() {
+    public void pintar(){
         super.pintar();
-        for (int i = 0; i < proyectiles.size(); i++) {
+        for (int i = 0; i < proyectiles.size(); i++){
             proyectiles.get(i).pintar();
         }
     }
 
     /**
-     * Retorna la lista de proyectiles del enemigo.
+     * Devuelve la lista de proyectiles del enemigo.
      */
-    public IList<ObjetoGraficoMovil> getProyectiles() {
+    public IList<ObjetoGraficoMovil> getProyectiles(){
         return proyectiles;
     }
 
-    private static Punto generarPosicionAleatoria() {
+    /**
+     * Genera una posición aleatoria dentro del área.
+     */
+    private static Punto generarPosicionAleatoria(){
         Random rand = new Random();
         double x = 10 + rand.nextDouble() * 80;
         double y = 10 + rand.nextDouble() * 80;
         return new Punto(x, y);
     }
 
-    public int hacerDano() {
+    /**
+     * Si hay colisión y el tiempo desde el último ataque es mayor que el cooldown,
+     * realiza el ataque y devuelve el daño infligido.
+     */
+    public int hacerDano(){
         long tiempoActual = System.currentTimeMillis();
         if (hayColision(jugador) && tiempoActual - ultimoAtaqueTime >= COOLDOWN_ATAQUE) {
             ultimoAtaqueTime = tiempoActual;
@@ -170,11 +175,19 @@ public class Enemigo extends ObjetoGraficoMovil {
         return 0;
     }
 
+    /**
+     * Recibe un impacto del jugador (disparo y muerte).
+     * 
+     * @param otro El objeto que impacta (jugador).
+     */
     @Override
     public void recibirImpacto(ObjetoGrafico otro) {
         this.vida = 0;
     }
 
+    /**
+     * Devuelve true si el enemigo está muerto.
+     */
     public boolean estaMuerto() {
         return vida <= 0;
     }
