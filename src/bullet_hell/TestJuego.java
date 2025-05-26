@@ -12,9 +12,12 @@ public class TestJuego {
     while(volveraJugar){
       BulletHellGame j = new BulletHellGame(2);
       j.jugar();
+
+    // Al finalizar el juego, se pregunta al usuario si desea volver a jugar.
     int respuesta = JOptionPane.showConfirmDialog(null,"¿Quieres volver a jugar?","¡Hasta pronto!",JOptionPane.YES_NO_OPTION);
-    if (respuesta == JOptionPane.NO_OPTION) {
-      volveraJugar = false;
+    if (respuesta == JOptionPane.NO_OPTION){// Si el usuario elige NO, se finaliza el juego.
+        JOptionPane.showMessageDialog(null,"¡Gracias por jugar!");
+        volveraJugar = false;
       }
     }  
     System.exit(0);

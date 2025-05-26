@@ -6,6 +6,7 @@ import model.ObjetoGraficoMovil;
 import model.base.Circulo;
 import model.base.IFigura;
 import model.base.Punto;
+import stdlib.StdDraw;
 import tads.IList;
 
 import java.awt.Color;
@@ -18,9 +19,12 @@ import juego.Juego2DBase;
 public class Jugador extends ObjetoGraficoDeUsuario {
     private static final double RADIO_ATAQUE = 15; //este será el área de daño
     private static final double RADIO= 5; //radio del jugador
+    private long ultimoRegeneracionTime = 0;
     private long ultimoAtaqueTime = 0;
-    private int vida = 100; 
-    private final long cooldown=3000; //en milisegundos
+    private int vida = 0;
+    private final long COOLDOWN =3000; //en milisegundos
+private final long COOLDOWN_REGENERACION = 100;
+    private final int VIDAMAX = 100;
 
     /**
      * Constructor del jugador.
@@ -29,6 +33,7 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     public Jugador(){
         super(new Circulo(Color.BLUE, new Punto(50, 50), RADIO), 'S', 'W', 'D', 'A');
         setImage("src/resources/Caballero.png");
+        vida = VIDAMAX; //vida inicial del jugador
 
     }
 
@@ -51,7 +56,7 @@ public class Jugador extends ObjetoGraficoDeUsuario {
                 objetivo = enemigo; 
             }
         }
-        if (objetivo != null) { 
+        if (objetivo != null) {
             objetivo.recibirImpacto(this);
             ultimoAtaqueTime = System.currentTimeMillis();
         }
@@ -63,7 +68,7 @@ public class Jugador extends ObjetoGraficoDeUsuario {
      * @return true si el jugador puede atacar, false si está en cooldown.
      */
     public boolean puedeAtacar(){
-        return System.currentTimeMillis()-ultimoAtaqueTime >= cooldown;
+        return System.currentTimeMillis()-ultimoAtaqueTime >= COOLDOWN;
     }
 
     /**
@@ -99,6 +104,7 @@ public class Jugador extends ObjetoGraficoDeUsuario {
     public boolean estaVivo(){
         return vida>0;
     }
+    
 
     /**
      * Mueve al jugador en la dirección indicada por los parámetros vX y vY,
@@ -146,6 +152,18 @@ public class Jugador extends ObjetoGraficoDeUsuario {
      */
     public float cooldown(){
         if(!puedeAtacar()) return (float) ((System.currentTimeMillis() - ultimoAtaqueTime)/10)*10;
-        return cooldown;
+        return COOLDOWN;
+    }
+
+    /**
+     * Suma vida al jugador.
+     * Si la vida supera VIDAMAX, se limita a VIDAMAX.
+     */
+    public void sumarVida(int vida){
+        if(System.currentTimeMillis() - ultimoRegeneracionTime > COOLDOWN_REGENERACION) {
+            this.vida += vida;
+            ultimoRegeneracionTime = System.currentTimeMillis();
+        } else return;
+        if (this.vida > VIDAMAX) this.vida = VIDAMAX;
     }
 }

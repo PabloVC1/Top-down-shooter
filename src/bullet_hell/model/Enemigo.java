@@ -27,7 +27,7 @@ public class Enemigo extends ObjetoGraficoMovil {
     private int daño;
     private long ultimoAtaqueTime = 0;
     private long ultimoDisparoTime = 0;
-    private int vida = 1;    
+    private int vida = 1;  
     private IList<ObjetoGraficoMovil> proyectiles = new LinkedList<>(); // Lista de proyectiles generados por este enemigo
 
     public Enemigo(Jugador jugador, int daño) {

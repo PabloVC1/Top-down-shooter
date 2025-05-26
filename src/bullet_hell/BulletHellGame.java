@@ -71,17 +71,21 @@ public class BulletHellGame extends Juego2DBase {
      */
     protected void pintarObjetos(){
         StdDraw.picture(50,50,"src/resources/background.jpg",100,100);
-        player.pintar();
+        Enemigo muerto = null;
         for(int i = enemigos.size()-1; i >= 0; i--){
-            enemigos.get(i).pintar();// Pinta cada enemigo en la lista y sus proyectiles
-            if(enemigos.get(i).estaMuerto()){// Si el enemigo está muerto, lo elimina de la lista y aumenta la puntuación
+            Enemigo enemigo = enemigos.get(i);
+            enemigo.pintar();// Pinta cada enemigo en la lista y sus proyectiles
+            if(enemigo.estaMuerto()){// Si el enemigo está muerto, lo elimina de la lista y aumenta la puntuación
                     enemigos.remove(i);
                     score++;
+                    muerto = enemigo;
                     if(score % 2 == 0){
                         agregarEnemigos(++dificultad , dificultad*5);
                     }
             }
         }
+        player.pintar();
+        animacionEnemigoMuerto(muerto);
     }
 
     /**
@@ -153,6 +157,7 @@ public class BulletHellGame extends Juego2DBase {
      * y el jugador según las teclas presionadas.
      */
     protected void moverObjetos(){
+        player.sumarVida(1);
         for(int i = 0; i < enemigos.size(); i++){
             enemigos.get(i).avanzar(enemigos);
         }
@@ -169,5 +174,21 @@ public class BulletHellGame extends Juego2DBase {
             player.eventoUsuarioTeclaMover(player.getTeclaIzquierda());
         }
 
+    }
+
+    /**
+     * Método que muestra una animación simple cuando un enemigo es eliminado.
+     * Para brevemente el juego para pintar una imagen de muerte que aumenta
+     * en el tiempo.
+     * 
+     * @param enemigo El enemigo que ha sido eliminado.
+     */
+    public void animacionEnemigoMuerto(Enemigo enemigo) {
+        if(enemigo == null) return;//caso extremo
+        for (int i = 0; i < 8; i++) {
+            StdDraw.picture(enemigo.getFigura().getCentroide().getX(), enemigo.getFigura().getCentroide().getY(), "src/resources/muerte.png", 5 + i, 5 + i);
+            StdDraw.show();
+            StdDraw.pause(50);
+        }
     }
 }
