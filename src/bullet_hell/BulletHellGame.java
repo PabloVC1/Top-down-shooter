@@ -185,10 +185,9 @@ public class BulletHellGame extends Juego2DBase {
      */
     public void animacionEnemigoMuerto(Enemigo enemigo) {
         if(enemigo == null) return;//caso extremo
-        for (int i = 0; i < 8; i++) {
-            StdDraw.picture(enemigo.getFigura().getCentroide().getX(), enemigo.getFigura().getCentroide().getY(), "src/resources/muerte.png", 5 + i, 5 + i);
+        for (int i = 0; i < 12; i++) {
+            StdDraw.picture(enemigo.getFigura().getCentroide().getX(), enemigo.getFigura().getCentroide().getY(), "src/resources/muerte.png", 2 + i, 2 + i);
             StdDraw.show();
-            StdDraw.pause(50);
         }
     }
 }
